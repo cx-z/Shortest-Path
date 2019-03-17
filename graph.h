@@ -92,22 +92,9 @@ void Graph::addSingleEdge(char s, char e, int w) {
 		v_id++;
 	}
 	
-	if (node[s] == node[e] || node[s] >= vertexNum || node[e] >= vertexNum || node[s] < 0 || node[e] < 0) {
-		return; //舍弃边界外的边，舍弃自环的边
-	}
 	Edge *pE = new Edge(node[s], node[e], w);
-	if (V[node[s]].headEdge == NULL || V[node[s]].headEdge->endVertex >= node[e]) {
-		pE->nextEdge = V[node[s]].headEdge;
-		V[node[s]].headEdge = pE;
-	}
-	else {
-		Edge *pH = V[node[s]].headEdge;
-		while (pH->nextEdge != NULL && pH->nextEdge->endVertex < node[e]) {
-			pH = pH->nextEdge;
-		}
-		pE->nextEdge = pH->nextEdge;
-		pH->nextEdge = pE;
-	}
+	pE->nextEdge = V[node[s]].headEdge;
+	V[node[s]].headEdge = pE;
 	V[node[s]].neighborNum++;
 	return;
 }

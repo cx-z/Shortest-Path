@@ -12,13 +12,13 @@ int main()
 	int nums, rows, w;
 	char s, e;
 
-	Graph G0(3);
+	Graph G0(4);
 	G0.addSingleEdge('a', 'b', 1);
 	G0.addSingleEdge('b', 'a', 1);
-	//G0.addSingleEdge('a', 'c', 1);
-	//G0.addSingleEdge('c', 'a', 1);
-	G0.addSingleEdge('c', 'b', 1);
-	G0.addSingleEdge('b', 'c', 1);
+	G0.addSingleEdge('a', 'd', 3);
+	G0.addSingleEdge('d', 'a', 3);
+	G0.addSingleEdge('a', 'c', 1);
+	G0.addSingleEdge('c', 'a', 1);
 	G0.showGraph();
 	return 0;
 }
