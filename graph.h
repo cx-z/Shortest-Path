@@ -5,14 +5,15 @@
 using namespace std;
 
 struct Edge { //边
-	int startVertex;
-	int endVertex;
+	char startVertex;
+	char endVertex;
 	int weight;
 	Edge *nextEdge;
-	Edge(int s,int e,int w):startVertex(s),endVertex(e),weight(w),nextEdge(NULL){}
+	Edge(char s,char e,int w):startVertex(s),endVertex(e),weight(w),nextEdge(NULL){}
 };
 
 struct Vertex { //节点
+	char name;
 	int neighborNum; //邻居节点的个数
 	Edge *headEdge;
 	Vertex() :neighborNum(0), headEdge(NULL){}
@@ -20,7 +21,7 @@ struct Vertex { //节点
 
 class Graph { //图
 public:
-	int vertexNum;
+	int vertexNum = 0;
 	Vertex *V;
 
 	map<char, int> node = {};
@@ -40,9 +41,13 @@ public:
 	}
 	Graph(const Graph &g) {
 		vertexNum = g.vertexNum;
+		node = g.node;
+		rnode = g.rnode;
+		v_id = g.v_id;
 		if (vertexNum > 0) {
 			V = new Vertex[vertexNum];
 			for (int i = 0; i < vertexNum; i++) {
+				V[i].name = g.V[i].name;
 				V[i].neighborNum = g.V[i].neighborNum;
 				Edge *pEg = g.V[i].headEdge;
 				if (pEg != NULL) {
@@ -84,15 +89,17 @@ void Graph::addSingleEdge(char s, char e, int w) {
 	if (node.find(s) == node.end()) { //判断s是否是已经登记过的节点
 		node.insert(pair<char, int>(s, v_id));
 		rnode.insert(pair<int, char>(v_id, s));
+		V[v_id].name = s;
 		v_id++;
 	}
 	if (node.find(e) == node.end()) { //判断e是否已经登记过
 		node.insert(pair<char, int>(e, v_id));
 		rnode.insert(pair<int, char>(v_id, e));
+		V[v_id].name = e;
 		v_id++;
 	}
 	
-	Edge *pE = new Edge(node[s], node[e], w);
+	Edge *pE = new Edge(s, e, w);
 	pE->nextEdge = V[node[s]].headEdge;
 	V[node[s]].headEdge = pE;
 	V[node[s]].neighborNum++;
@@ -107,7 +114,7 @@ void Graph::showGraph() {
 			if (V[node[iter->first]].headEdge != NULL) {
 				Edge *pH = V[node[iter->first]].headEdge;
 				while (pH != NULL) {
-					cout << "->" << rnode[pH->endVertex] << "(" << pH->weight << ")";
+					cout << "->" << pH->endVertex << "(" << pH->weight << ")";
 					pH = pH->nextEdge;
 				}
 			}
