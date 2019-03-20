@@ -82,6 +82,7 @@ public:
 	}
 	void addSingleEdge(char s, char e, int w);
 	void showGraph();
+	void addEdges(char s, map<char, int> neighbors);
 };
 
 //Ìí¼Óµ¥Ïò±ß
@@ -124,4 +125,12 @@ void Graph::showGraph() {
 	else
 		cout << "This Graph is empty!" << endl;
 	return;
+}
+
+void Graph::addEdges(char s, map<char, int> neighbors) {
+	map<char, int>::iterator iter = neighbors.begin();
+	while (iter != neighbors.end()) {
+		addSingleEdge(s, iter->first, iter->second);
+		iter++;
+	}
 }
